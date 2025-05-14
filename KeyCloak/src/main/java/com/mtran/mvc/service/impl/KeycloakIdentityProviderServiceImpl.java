@@ -173,7 +173,7 @@ public class KeycloakIdentityProviderServiceImpl implements IdentityProviderServ
     }
 
     @Override
-    public TokenExchangeResponse refreshToken(RefreshRequest_keyCloak refreshRequestKeyCloak) {
+    public TokenExchangeResponse refreshToken(RefreshRequest refreshRequestKeyCloak) {
         String storedRefreshToken = tokenServiceImpl.getRefreshToken(refreshRequestKeyCloak.getEmail());
         String storedAccessToken = tokenServiceImpl.getAccessToken(refreshRequestKeyCloak.getEmail());
         if (storedRefreshToken == null) {

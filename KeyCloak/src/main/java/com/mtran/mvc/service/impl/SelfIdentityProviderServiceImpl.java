@@ -89,7 +89,7 @@ public class SelfIdentityProviderServiceImpl implements IdentityProviderService 
     }
 
     @Override
-    public TokenExchangeResponse refreshToken(RefreshRequest_keyCloak refreshRequestKeyCloak) {
+    public TokenExchangeResponse refreshToken(RefreshRequest refreshRequestKeyCloak) {
         String refreshToken = tokenServiceImpl.getRefreshToken(refreshRequestKeyCloak.getEmail());
         if (refreshToken == null) {
             throw new AppException(ErrorCode.REFRESH_TOKEN_NOT_FOUND);

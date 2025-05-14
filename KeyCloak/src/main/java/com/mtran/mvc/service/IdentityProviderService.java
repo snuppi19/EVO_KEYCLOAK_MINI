@@ -12,7 +12,7 @@ public interface IdentityProviderService {
     String getLoginUrl();
     TokenExchangeResponse handleCallback(String code);
     void login(LoginRequest loginRequest);
-    TokenExchangeResponse refreshToken(RefreshRequest_keyCloak refreshRequestKeyCloak);
+    TokenExchangeResponse refreshToken(RefreshRequest refreshRequestKeyCloak);
     UserResponse getUserProfile(String keycloakId);
     void logout(LogoutRequest request);
     ResponseEntity<?> changePassword(ChangePasswordRequest changePasswordRequest);

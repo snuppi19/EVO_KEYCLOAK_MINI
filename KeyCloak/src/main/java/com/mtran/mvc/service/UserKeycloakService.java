@@ -16,7 +16,7 @@ public interface UserKeycloakService {
     TokenExchangeResponse handleCallback(String code);
     void login(LoginRequest loginRequest);
     TokenResponse getTokensAfterLogin(String email);
-    TokenExchangeResponse refresh(RefreshRequest_keyCloak refreshRequestKeyCloak);
+    TokenExchangeResponse refresh(RefreshRequest refreshRequestKeyCloak);
     UserResponse getUserProfileById(Integer id);
     void logout(LogoutRequest request);
     ResponseEntity<?> changePassword(ChangePasswordRequest changePasswordRequest);

@@ -2,7 +2,7 @@ package com.mtran.mvc.config.utils.jwt;
 
 import com.mtran.mvc.config.utils.RSAKeyUtil;
 import com.mtran.mvc.dto.request.LogoutRequest;
-import com.mtran.mvc.dto.request.RefreshRequest_keyCloak;
+import com.mtran.mvc.dto.request.RefreshRequest;
 import com.mtran.mvc.entity.InvalidateToken;
 import com.mtran.mvc.entity.User;
 import com.mtran.mvc.repository.InvalidatedTokenRepository;
@@ -69,7 +69,7 @@ public class JwtUtil {
     }
 
     //  refresh access token ( email duoc dung lam usernam)
-    public String refreshToken(RefreshRequest_keyCloak RefreshRequest) throws Exception {
+    public String refreshToken(RefreshRequest RefreshRequest) throws Exception {
         String email = RefreshRequest.getEmail();
         String accessToken= tokenServiceImpl.getAccessToken(email);
         var signJWT = validateToken(accessToken);
@@ -103,6 +103,7 @@ public class JwtUtil {
         }
         String email = claims.getSubject();
         User user = userRepository.findByEmail(email);
+        //check issueAt so với lastchangePassword để xác thực được token còn hiệu lực hay không
         LocalDateTime lastChangePassword = user.getLastChangePassword();
         if (lastChangePassword != null) {
             Date issuedAt = claims.getIssuedAt();
