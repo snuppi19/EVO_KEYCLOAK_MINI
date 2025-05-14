@@ -76,7 +76,7 @@ public class HomeController {
 
     @Operation(summary = "Làm mới access token",description = "API làm mới access token bằng refresh token từ Keycloak" )
     @PostMapping("/refresh-token")
-    String refreshToken(@RequestBody RefreshRequest_keyCloak refreshRequestKeyCloak, HttpServletRequest httpServletRequest) {
+    String refreshToken(@RequestBody RefreshRequest refreshRequestKeyCloak, HttpServletRequest httpServletRequest) {
         TokenExchangeResponse tokenExchangeResponse = userKeycloakServiceImpl.refresh(refreshRequestKeyCloak);
         userActivityLogServiceImpl.logActivity(refreshRequestKeyCloak.getEmail(), ActivityType.REFRESH_TOKEN, "provide new access token ", httpServletRequest);
         return tokenExchangeResponse.getAccessToken();

@@ -92,7 +92,7 @@ public class UserKeycloakServiceImpl implements UserKeycloakService {
         return selfIdentityProvider.getTokensAfterLogin(email);
     }
 
-    public TokenExchangeResponse refresh(RefreshRequest_keyCloak refreshRequestKeyCloak) {
+    public TokenExchangeResponse refresh(RefreshRequest refreshRequestKeyCloak) {
         return getIdentityProvider().refreshToken(refreshRequestKeyCloak);
     }
 
