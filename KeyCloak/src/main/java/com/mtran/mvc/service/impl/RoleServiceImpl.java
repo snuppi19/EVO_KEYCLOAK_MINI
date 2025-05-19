@@ -63,7 +63,8 @@ public class RoleServiceImpl implements RoleService {
     }
 
     // Lấy danh sách quyền của user dựa trên userId
-    public List<String> getPermissionsByUserId(Integer userId) {
+    public List<Permission> getPermissionsByUserId(Integer userId) {
+        // Lấy danh sách role_id của user
         List<Integer> roleIds = userRoleRepository.findByUserId(userId)
                 .stream()
                 .map(UserRole::getRoleId)
@@ -72,25 +73,22 @@ public class RoleServiceImpl implements RoleService {
         // Lấy danh sách permission_id từ bảng role_permission dựa trên danh sách role_id
         List<Integer> permissionIds = rolePermissionRepository.findByRoleIdIn(roleIds)
                 .stream()
-                .map(rp -> rp.getPermissionId())
+                .map(RolePermission::getPermissionId)
                 .collect(Collectors.toList());
 
-        return permissionRepository.findAllById(permissionIds)
-                .stream()
-                .map(Permission::getPermissionName)
-                .collect(Collectors.toList());
+        // Trả về danh sách Permission
+        return permissionRepository.findAllById(permissionIds);
     }
 
-    public List<String> getPermissionsByRoleName(String roleName) {
+
+    public List<Permission> getPermissionsByRoleName(String roleName) {
         Role role = roleRepository.findByRoleName(roleName)
                 .orElseThrow(() -> new RuntimeException("Role not found: " + roleName));
         List<RolePermission> rolePermissions = rolePermissionRepository.findByRoleId(role.getRoleId());
-        return rolePermissions.stream()
-                .map(rp -> permissionRepository.findById(rp.getPermissionId()))
-                .filter(Optional::isPresent)
-                .map(Optional::get)
-                .map(Permission::getPermissionName)
+        List<Integer> permissionIds = rolePermissions.stream()
+                .map(RolePermission::getPermissionId)
                 .collect(Collectors.toList());
+        return permissionRepository.findAllById(permissionIds);
     }
 
     @Override

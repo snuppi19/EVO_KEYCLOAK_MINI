@@ -18,15 +18,15 @@ import java.util.List;
 public class PermissionController {
     private final PermissionServiceImpl permissionService;
 
-    @Operation( summary = "Lấy danh sách tất cả quyền", description = "API dành cho ADMIN để truy xuất danh sách toàn bộ quyền (permissions)")
-    @PreAuthorize("hasRole('ADMIN')")
+    @Operation(summary = "Lấy danh sách tất cả quyền", description = "API dành cho ADMIN để truy xuất danh sách toàn bộ quyền (permissions)")
+    @PreAuthorize("hasPermission('permission', 'view')")
     @GetMapping
     public ResponseEntity<List<Permission>> getAllPermissions() {
         return ResponseEntity.ok(permissionService.findAll());
     }
 
-    @Operation(summary = "Lấy thông tin quyền theo ID",description = "API dành cho ADMIN để lấy thông tin chi tiết của quyền theo ID")
-    @PreAuthorize("hasRole('ADMIN')")
+    @Operation(summary = "Lấy thông tin quyền theo ID", description = "API dành cho ADMIN để lấy thông tin chi tiết của quyền theo ID")
+    @PreAuthorize("hasPermission('permission', 'view')")
     @GetMapping("/{id}")
     public ResponseEntity<Permission> getPermissionById(@PathVariable Integer id) {
         return permissionService.findById(id)
@@ -34,25 +34,26 @@ public class PermissionController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    @Operation(summary = "Tạo mới quyền",description = "API cho phép ADMIN tạo một quyền mới trong hệ thống")
-    @PreAuthorize("hasRole('ADMIN')")
+    @Operation(summary = "Tạo mới quyền", description = "API cho phép ADMIN tạo một quyền mới trong hệ thống")
+    @PreAuthorize("hasPermission('permission', 'create')")
     @PostMapping
     public ResponseEntity<Permission> createPermission(@RequestBody Permission permission) {
         return ResponseEntity.ok(permissionService.save(permission));
     }
 
-    @Operation(summary = "Cập nhật thông tin quyền",description = "API cho phép ADMIN cập nhật tên của quyền dựa trên ID")
-    @PreAuthorize("hasRole('ADMIN')")
+    @Operation(summary = "Cập nhật thông tin quyền", description = "API cho phép ADMIN cập nhật thông tin của quyền dựa trên ID")
+    @PreAuthorize("hasPermission('permission', 'update')")
     @PutMapping("/{id}")
     public ResponseEntity<Permission> updatePermission(@PathVariable Integer id, @RequestBody Permission permission) {
         return permissionService.findById(id).map(existingPermission -> {
-            existingPermission.setPermissionName(permission.getPermissionName());
+            existingPermission.setResourceCode(permission.getResourceCode());
+            existingPermission.setScope(permission.getScope());
             return ResponseEntity.ok(permissionService.save(existingPermission));
         }).orElse(ResponseEntity.notFound().build());
     }
 
-    @Operation(summary = "Xóa quyền theo ID",description = "API cho phép ADMIN xóa quyền khỏi hệ thống nếu quyền tồn tại")
-    @PreAuthorize("hasRole('ADMIN')")
+    @Operation(summary = "Xóa quyền theo ID", description = "API cho phép ADMIN xóa quyền khỏi hệ thống nếu quyền tồn tại")
+    @PreAuthorize("hasPermission('permission', 'delete')")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletePermission(@PathVariable Integer id) {
         if (permissionService.findById(id).isPresent()) {

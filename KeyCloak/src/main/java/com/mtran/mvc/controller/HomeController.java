@@ -91,21 +91,30 @@ public class HomeController {
     }
 
     @Operation(summary = "Lấy thông tin người dùng theo ID",description = "API chỉ cho STAFF sử dụng để lấy profile chi tiết của người dùng dựa trên ID")
-    @PreAuthorize("hasRole('STAFF')")
+    @PreAuthorize("hasPermission('user', 'view')")
     @GetMapping("/user-profile/{id}")
     UserResponse getUserProfile(@PathVariable Integer id, HttpServletRequest httpServletRequest) {
         return userKeycloakServiceImpl.getUserProfileById(id);
     }
 
     @Operation(summary = "Lấy danh sách tất cả người dùng",description = "API phân trang danh sách người dùng, chỉ dành cho STAFF")
-    @PreAuthorize("hasRole('STAFF')")
+    @PreAuthorize("hasPermission('user', 'view')")
     @GetMapping("/all-profiles")
-    Page<UserResponse> getAllProfiles(@RequestBody PagingRequest pagingRequest, HttpServletRequest httpServletRequest) {
+    Page<UserResponse> getAllProfiles(  @RequestParam(defaultValue = "0") int page,
+                                        @RequestParam(defaultValue = "10") int size,
+                                        @RequestParam(defaultValue = "id") String sortBy,
+                                        @RequestParam(defaultValue = "false") boolean descending,
+                                        HttpServletRequest httpServletRequest) {
+        PagingRequest pagingRequest = new PagingRequest();
+        pagingRequest.setPage(page);
+        pagingRequest.setSize(size);
+        pagingRequest.setSortBy(sortBy);
+        pagingRequest.setDescending(descending);
         return userKeycloakServiceImpl.getAllProfiles(pagingRequest);
     }
 
     @Operation(summary = "Đặt lại mật khẩu",description = "API cho phép người dùng đổi mật khẩu. Yêu cầu vai trò USER")
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasPermission('user', 'update')")
     @PutMapping("/reset-password")
     ResponseEntity<?> changePassword(@RequestBody ChangePasswordRequest changePasswordRequest, HttpServletRequest httpServletRequest) {
         userActivityLogServiceImpl.logActivity(changePasswordRequest.getUser().getEmail(), ActivityType.RESET_PASSWORD, "User reset password", httpServletRequest);
@@ -113,7 +122,7 @@ public class HomeController {
     }
 
     @Operation(summary = "Xóa mềm người dùng",description = "API chỉ cho ADMIN sử dụng để đánh dấu xóa tài khoản người dùng")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasPermission('user', 'delete')")
     @PutMapping("/soft-delete")
     ResponseEntity<?> softDelete(@RequestBody DeleteRequest deleteRequest, HttpServletRequest httpServletRequest) {
         userActivityLogServiceImpl.logActivity(deleteRequest.getUser().getEmail(), ActivityType.DELETE_ACCOUNT, "Delete account", httpServletRequest);
@@ -121,7 +130,7 @@ public class HomeController {
     }
 
     @Operation(summary = "Thay đổi trạng thái hoạt động của người dùng",description = "API cho phép STAFF khóa hoặc mở khóa tài khoản người dùng")
-    @PreAuthorize("hasRole('STAFF')")
+    @PreAuthorize("hasPermission('user', 'update')")
     @PutMapping("/change-active-status")
     ResponseEntity<?> changeActiveStatus(@RequestBody ChangeActiveStatusRequest changeActiveStatusRequest, HttpServletRequest httpServletRequest) {
         boolean checkStatus = changeActiveStatusRequest.getIsActive();
@@ -134,7 +143,7 @@ public class HomeController {
     }
 
     @Operation(summary = "Gán vai trò cho người dùng",description = "API cho ADMIN sử dụng để gán role cho người dùng")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasPermission('role', 'create')")
     @PostMapping("/assign-role")
     ResponseEntity<?> assignRole(@RequestBody AssignRoleRequest assignRoleRequest, HttpServletRequest httpServletRequest) {
         userKeycloakServiceImpl.assignRoleToUser(assignRoleRequest.getUserId(), assignRoleRequest.getRoleId());
@@ -148,7 +157,7 @@ public class HomeController {
     }
 
     @Operation(summary = "Gỡ vai trò khỏi người dùng",description = "API cho ADMIN sử dụng để gỡ role khỏi người dùng")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasPermission('role', 'delete')")
     @DeleteMapping("/remove-role")
     ResponseEntity<?> removeRole(@RequestBody AssignRoleRequest assignRoleRequest, HttpServletRequest httpServletRequest) {
         userKeycloakServiceImpl.removeRoleFromUser(assignRoleRequest.getUserId(), assignRoleRequest.getRoleId());
