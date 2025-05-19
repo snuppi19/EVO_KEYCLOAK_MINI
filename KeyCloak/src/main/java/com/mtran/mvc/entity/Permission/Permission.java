@@ -15,7 +15,10 @@ public class Permission {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "permission_id")
     private Integer permissionId;
-    @Column(name = "permission_name", columnDefinition = "VARCHAR(100)")
-    private String permissionName;
+    @Column(name = "resource_code", columnDefinition = "VARCHAR(50)")
+    private String resourceCode;
+
+    @Column(name = "scope", columnDefinition = "VARCHAR(50)")
+    private String scope;
 
 }

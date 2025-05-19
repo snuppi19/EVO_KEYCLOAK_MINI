@@ -5,6 +5,8 @@ import com.mtran.mvc.entity.KeycloakProperties;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler;
+import org.springframework.security.access.expression.method.MethodSecurityExpressionHandler;
 import org.springframework.security.access.hierarchicalroles.RoleHierarchy;
 import org.springframework.security.access.hierarchicalroles.RoleHierarchyImpl;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
@@ -23,7 +25,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig {
     private final KeycloakProperties keycloakProperties;
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
-    private final CustomJwtAuthenticationConverter customJwtAuthenticationConverter;
+    private final CustomPermissionEvaluator customPermissionEvaluator;
+   // private final CustomJwtAuthenticationConverter customJwtAuthenticationConverter;
     private final String[] PUBLIC_ENDPOINTS = {"/home/register", "/home/login", "/home/callback", "/home/logout"
             , "/home/verify-otp", "/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs/**","/v3/api-docs.yaml"};
 
@@ -44,8 +47,7 @@ public class SecurityConfig {
                     .jwt(jwtConfigurer -> jwtConfigurer
                             .jwkSetUri(keycloakProperties.getAuthServerUrl() + "/realms/" +
                                     keycloakProperties.getRealm() + "/protocol/openid-connect/certs")
-                            //SỬ DỤNG CUSTOM XÁC THỰC: LẤY THÔNG TIN CHỌC VÀO DATABSE - XÁC ĐỊNH QUYỀN
-                            .jwtAuthenticationConverter(jwtAuthenticationConverter())
+                            .jwtAuthenticationConverter(new JwtAuthenticationConverter())
                     ));
         } else {
             httpSecurity.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
@@ -58,11 +60,10 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
-
     @Bean
-    public JwtAuthenticationConverter jwtAuthenticationConverter() {
-        JwtAuthenticationConverter jwtAuthenticationConverter = new JwtAuthenticationConverter();
-        jwtAuthenticationConverter.setJwtGrantedAuthoritiesConverter(customJwtAuthenticationConverter);
-        return jwtAuthenticationConverter;
+    public MethodSecurityExpressionHandler methodSecurityExpressionHandler() {
+        DefaultMethodSecurityExpressionHandler expressionHandler = new DefaultMethodSecurityExpressionHandler();
+        expressionHandler.setPermissionEvaluator(customPermissionEvaluator);
+        return expressionHandler;
     }
 }

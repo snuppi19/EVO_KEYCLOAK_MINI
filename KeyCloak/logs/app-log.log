@@ -1,0 +1,56 @@
+2025-05-19 13:39:03 INFO  com.mtran.mvc.KeyCloakApplication - Starting KeyCloakApplication using Java 21.0.5 with PID 20428 (D:\EVOTEK_PRACTICE\tuan2\keycloak\KeyCloak\target\classes started by Admin in D:\EVOTEK_PRACTICE\tuan2\keycloak\KeyCloak)
+2025-05-19 13:39:03 INFO  com.mtran.mvc.KeyCloakApplication - No active profile set, falling back to 1 default profile: "default"
+2025-05-19 13:39:07 WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-05-19 13:39:08 INFO  com.mtran.mvc.KeyCloakApplication - Started KeyCloakApplication in 4.643 seconds (process running for 5.122)
+2025-05-19 13:39:14 INFO  c.m.mvc.config.logging.LoggingFilter - REQUEST: [METHOD=POST, PATH=/home/login, BODY=SENSITIVE DATA HIDDEN]
+2025-05-19 13:39:16 INFO  c.m.mvc.config.logging.LoggingFilter - RESPONSE: [STATUS=200]
+2025-05-19 13:39:32 INFO  c.m.mvc.config.logging.LoggingFilter - REQUEST: [METHOD=GET, PATH=/home/callback]
+2025-05-19 13:39:33 INFO  c.m.mvc.config.logging.LoggingFilter - RESPONSE: [STATUS=200]
+2025-05-19 13:40:03 INFO  c.m.mvc.config.logging.LoggingFilter - REQUEST: [METHOD=GET, PATH=/home/all-profiles]
+2025-05-19 13:40:03 WARN  o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Resolved [org.springframework.http.converter.HttpMessageNotReadableException: Required request body is missing: org.springframework.data.domain.Page<com.mtran.mvc.dto.response.UserResponse> com.mtran.mvc.controller.HomeController.getAllProfiles(com.mtran.mvc.dto.request.PagingRequest,jakarta.servlet.http.HttpServletRequest)]
+2025-05-19 13:40:03 INFO  c.m.mvc.config.logging.LoggingFilter - RESPONSE: [STATUS=500]
+2025-05-19 13:41:38 INFO  c.m.mvc.config.logging.LoggingFilter - REQUEST: [METHOD=GET, PATH=/home/all-profiles]
+2025-05-19 13:41:38 WARN  o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Resolved [org.springframework.orm.jpa.JpaSystemException: Specified result type [java.lang.Integer] did not match Query selection type [com.mtran.mvc.entity.Role.UserRole] - multiple selections: use Tuple or array]
+2025-05-19 13:41:38 INFO  c.m.mvc.config.logging.LoggingFilter - RESPONSE: [STATUS=500]
+2025-05-19 13:46:04 INFO  com.mtran.mvc.KeyCloakApplication - Starting KeyCloakApplication using Java 21.0.5 with PID 20428 (D:\EVOTEK_PRACTICE\tuan2\keycloak\KeyCloak\target\classes started by Admin in D:\EVOTEK_PRACTICE\tuan2\keycloak\KeyCloak)
+2025-05-19 13:46:04 INFO  com.mtran.mvc.KeyCloakApplication - No active profile set, falling back to 1 default profile: "default"
+2025-05-19 13:46:05 WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-05-19 13:46:05 INFO  com.mtran.mvc.KeyCloakApplication - Started KeyCloakApplication in 1.278 seconds (process running for 422.676)
+2025-05-19 13:46:12 INFO  com.mtran.mvc.KeyCloakApplication - Starting KeyCloakApplication using Java 21.0.5 with PID 10680 (D:\EVOTEK_PRACTICE\tuan2\keycloak\KeyCloak\target\classes started by Admin in D:\EVOTEK_PRACTICE\tuan2\keycloak\KeyCloak)
+2025-05-19 13:46:12 INFO  com.mtran.mvc.KeyCloakApplication - No active profile set, falling back to 1 default profile: "default"
+2025-05-19 13:46:15 WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-05-19 13:46:16 INFO  com.mtran.mvc.KeyCloakApplication - Started KeyCloakApplication in 4.437 seconds (process running for 4.941)
+2025-05-19 13:46:24 INFO  c.m.mvc.config.logging.LoggingFilter - REQUEST: [METHOD=POST, PATH=/home/login, BODY=SENSITIVE DATA HIDDEN]
+2025-05-19 13:46:29 INFO  c.m.mvc.config.logging.LoggingFilter - RESPONSE: [STATUS=200]
+2025-05-19 13:46:42 INFO  c.m.mvc.config.logging.LoggingFilter - REQUEST: [METHOD=GET, PATH=/home/callback]
+2025-05-19 13:46:43 INFO  c.m.mvc.config.logging.LoggingFilter - RESPONSE: [STATUS=200]
+2025-05-19 13:46:52 INFO  c.m.mvc.config.logging.LoggingFilter - REQUEST: [METHOD=GET, PATH=/home/all-profiles]
+2025-05-19 13:46:52 WARN  o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Resolved [org.springframework.orm.jpa.JpaSystemException: Specified result type [java.lang.Integer] did not match Query selection type [com.mtran.mvc.entity.Role.UserRole] - multiple selections: use Tuple or array]
+2025-05-19 13:46:52 INFO  c.m.mvc.config.logging.LoggingFilter - RESPONSE: [STATUS=500]
+2025-05-19 13:47:38 INFO  com.mtran.mvc.KeyCloakApplication - Starting KeyCloakApplication using Java 21.0.5 with PID 17440 (D:\EVOTEK_PRACTICE\tuan2\keycloak\KeyCloak\target\classes started by Admin in D:\EVOTEK_PRACTICE\tuan2\keycloak\KeyCloak)
+2025-05-19 13:47:38 INFO  com.mtran.mvc.KeyCloakApplication - No active profile set, falling back to 1 default profile: "default"
+2025-05-19 13:47:42 WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-05-19 13:48:04 INFO  com.mtran.mvc.KeyCloakApplication - Started KeyCloakApplication in 26.297 seconds (process running for 26.975)
+2025-05-19 13:48:28 INFO  c.m.mvc.config.logging.LoggingFilter - REQUEST: [METHOD=GET, PATH=/home/all-profiles]
+2025-05-19 13:48:57 WARN  o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Resolved [org.springframework.orm.jpa.JpaSystemException: Specified result type [java.lang.Integer] did not match Query selection type [com.mtran.mvc.entity.Role.UserRole] - multiple selections: use Tuple or array]
+2025-05-19 13:48:57 INFO  c.m.mvc.config.logging.LoggingFilter - RESPONSE: [STATUS=500]
+2025-05-19 13:48:59 INFO  com.mtran.mvc.KeyCloakApplication - Starting KeyCloakApplication using Java 21.0.5 with PID 16888 (D:\EVOTEK_PRACTICE\tuan2\keycloak\KeyCloak\target\classes started by Admin in D:\EVOTEK_PRACTICE\tuan2\keycloak\KeyCloak)
+2025-05-19 13:48:59 INFO  com.mtran.mvc.KeyCloakApplication - No active profile set, falling back to 1 default profile: "default"
+2025-05-19 13:49:03 WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-05-19 13:49:04 INFO  com.mtran.mvc.KeyCloakApplication - Started KeyCloakApplication in 4.77 seconds (process running for 5.35)
+2025-05-19 13:49:05 INFO  c.m.mvc.config.logging.LoggingFilter - REQUEST: [METHOD=GET, PATH=/home/all-profiles]
+2025-05-19 13:49:54 WARN  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=52s605ms157µs300ns).
+2025-05-19 13:49:54 WARN  o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Resolved [org.springframework.orm.jpa.JpaSystemException: Specified result type [java.lang.Integer] did not match Query selection type [com.mtran.mvc.entity.Role.UserRole] - multiple selections: use Tuple or array]
+2025-05-19 13:49:54 INFO  c.m.mvc.config.logging.LoggingFilter - RESPONSE: [STATUS=500]
+2025-05-19 13:49:57 INFO  com.mtran.mvc.KeyCloakApplication - Starting KeyCloakApplication using Java 21.0.5 with PID 17204 (D:\EVOTEK_PRACTICE\tuan2\keycloak\KeyCloak\target\classes started by Admin in D:\EVOTEK_PRACTICE\tuan2\keycloak\KeyCloak)
+2025-05-19 13:49:57 INFO  com.mtran.mvc.KeyCloakApplication - No active profile set, falling back to 1 default profile: "default"
+2025-05-19 13:50:01 WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-05-19 13:50:01 INFO  com.mtran.mvc.KeyCloakApplication - Started KeyCloakApplication in 4.555 seconds (process running for 5.131)
+2025-05-19 13:50:03 INFO  c.m.mvc.config.logging.LoggingFilter - REQUEST: [METHOD=GET, PATH=/home/all-profiles]
+2025-05-19 13:50:28 WARN  o.s.d.w.c.SpringDataJacksonConfiguration$PageModule$WarningLoggingModifier - Serializing PageImpl instances as-is is not supported, meaning that there is no guarantee about the stability of the resulting JSON structure!
+	For a stable JSON structure, please use Spring Data's PagedModel (globally via @EnableSpringDataWebSupport(pageSerializationMode = VIA_DTO))
+	or Spring HATEOAS and Spring Data's PagedResourcesAssembler as documented in https://docs.spring.io/spring-data/commons/reference/repositories/core-extensions.html#core.web.pageables.
+
+2025-05-19 13:50:28 INFO  c.m.mvc.config.logging.LoggingFilter - RESPONSE: [STATUS=200]
+2025-05-19 13:50:39 INFO  c.m.mvc.config.logging.LoggingFilter - REQUEST: [METHOD=GET, PATH=/home/user-profile/27]
+2025-05-19 13:50:42 INFO  c.m.mvc.config.logging.LoggingFilter - RESPONSE: [STATUS=200]

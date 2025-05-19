@@ -23,14 +23,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.AccessDeniedException;
-import org.springframework.security.access.hierarchicalroles.RoleHierarchy;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -44,7 +39,6 @@ public class UserKeycloakServiceImpl implements UserKeycloakService {
     private final RoleServiceImpl roleService;
     private final RoleRepository roleRepository;
     private final UserRoleRepository userRoleRepository;
-    private final RoleHierarchy roleHierarchy;
     private final TokenServiceImpl tokenServiceImpl;
 
 
@@ -55,8 +49,6 @@ public class UserKeycloakServiceImpl implements UserKeycloakService {
         if (accessToken == null) {
             throw new AppException(ErrorCode.INVALID_KEY);
         }
-        checkPermission(user.getId(), "VIEW_ALL_USERS_PROFILE");
-
         int page = pagingRequest.getPage();
         int size = pagingRequest.getSize();
         String sortBy = pagingRequest.getSortBy();
@@ -97,10 +89,6 @@ public class UserKeycloakServiceImpl implements UserKeycloakService {
     }
 
     public UserResponse getUserProfileById(Integer id) {
-        String keycloakId = SecurityContextHolder.getContext().getAuthentication().getName();
-        User userCheck = userRepository.findByKeycloakId(keycloakId);
-        // Kiểm tra quyền
-        checkPermission(userCheck.getId(), "VIEW_USER_PROFILE");
         if (id <= 0) {
             throw new AppException(ErrorCode.ID_INVALID);
         }
@@ -119,56 +107,20 @@ public class UserKeycloakServiceImpl implements UserKeycloakService {
     }
 
     public ResponseEntity<?> changePassword(ChangePasswordRequest changePasswordRequest) {
-        String keycloakId = SecurityContextHolder.getContext().getAuthentication().getName();
-        User user = userRepository.findByKeycloakId(keycloakId);
-        // Kiểm tra quyền
-        checkPermission(user.getId(), "RESET_PASSWORD");
         return getIdentityProvider().changePassword(changePasswordRequest);
     }
 
     public ResponseEntity<?> softDelete(DeleteRequest deleteRequest) {
-        String keycloakId = SecurityContextHolder.getContext().getAuthentication().getName();
-        User user = userRepository.findByKeycloakId(keycloakId);
-        checkPermission(user.getId(), "CHANGE_USER_STATUS");
-        // Kiểm tra quyền
-        checkPermission(user.getId(), "SOFT_DELETE_USER");
         return getIdentityProvider().softDelete(deleteRequest);
     }
 
     public ResponseEntity<?> changeActiveStatus(ChangeActiveStatusRequest changeActiveStatusRequest) {
-        String keycloakId = SecurityContextHolder.getContext().getAuthentication().getName();
-        User user = userRepository.findByKeycloakId(keycloakId);
-        checkPermission(user.getId(), "CHANGE_USER_STATUS");
         return getIdentityProvider().changeActiveStatus(changeActiveStatusRequest);
-    }
-
-    private void checkPermission(Integer userId, String requiredPermission) {
-        List<String> roles = roleService.getRolesByUserId(userId);
-        // Chuyển đổi vai trò thành GrantedAuthority
-        List<SimpleGrantedAuthority> authorities = roles.stream()
-                .map(role -> new SimpleGrantedAuthority("ROLE_" + role))
-                .collect(Collectors.toList());
-        // Áp dụng RoleHierarchy để lấy tất cả quyền kế thừa
-        List<SimpleGrantedAuthority> reachableAuthorities = roleHierarchy.getReachableGrantedAuthorities(authorities)
-                .stream()
-                .map(auth -> new SimpleGrantedAuthority(auth.getAuthority()))
-                .collect(Collectors.toList());
-        // Lấy danh sách quyền từ các vai trò (bao gồm quyền kế thừa)
-        List<String> permissions = reachableAuthorities.stream()
-                .map(auth -> roleService.getPermissionsByRoleName(auth.getAuthority().replace("ROLE_", "")))
-                .flatMap(List::stream)
-                .distinct()
-                .collect(Collectors.toList());
-        // Kiểm tra quyền yêu cầu
-        if (!permissions.contains(requiredPermission)) {
-            throw new AccessDeniedException("User does not have permission: " + requiredPermission);
-        }
     }
 
     public void assignRoleToUser(Integer userId, Integer roleId) {
         String keycloakId = SecurityContextHolder.getContext().getAuthentication().getName();
         User user = userRepository.findByKeycloakId(keycloakId);
-        checkPermission(user.getId(), "ASSIGN_ROLE_TO_USER");
         userRepository.findById(userId.toString())
                 .orElseThrow(() -> new RuntimeException("User not found: " + userId));
         roleRepository.findById(roleId)
@@ -185,7 +137,6 @@ public class UserKeycloakServiceImpl implements UserKeycloakService {
     public void removeRoleFromUser(Integer userId, Integer roleId) {
         String keycloakId = SecurityContextHolder.getContext().getAuthentication().getName();
         User user = userRepository.findByKeycloakId(keycloakId);
-        checkPermission(user.getId(), "REMOVE_ROLE_FROM_USER");
         userRepository.findById(userId.toString())
                 .orElseThrow(() -> new RuntimeException("User not found: " + userId));
         roleRepository.findById(roleId)
